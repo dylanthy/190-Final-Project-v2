@@ -20,7 +20,7 @@
     display: inline-block;
     font-size: 16px;
     margin: 10px;
-    cursor: crosshair;
+    cursor: pointer;
   }
 
   .add-task:hover {
