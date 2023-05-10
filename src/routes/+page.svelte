@@ -1,6 +1,9 @@
   <style>
 h1, body{ 
   text-align: center;
+  Font-family: 'Arial';
+  font-style:bold;
+  font-size: 40px;
 }
 .delete-all{
   position: sticky;
@@ -17,11 +20,13 @@ h1, body{
       display: inline-block;
       font-size: 30px;
       cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.20) 0px 4px 4px;
     }
     plant-list {
       display: grid;
       grid-template-columns: 1fr, 1fr;
       justify-items: center;
+      
     }
 
     .add-plant {
@@ -39,6 +44,7 @@ h1, body{
       display: inline-block;
       font-size: 30px;
       cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.20) 0px 4px 4px;
     }
     
 

@@ -1,19 +1,27 @@
 <style>
+
 .plant-grid {
   display: grid;
-  gap: 5px;
+  gap: 8px;
   grid-template-areas: 
     "text text text"
-    "desc desc delete"
+    "desc desc desc"
     "image image timer"
+    "image image timer"
+    "image image timer"
+    "image image timer"
+    "image image timer"
+    "image image delete"
   ;
   column-gap: 10px;
 
-  border: 1px solid black;
-  background-color: #daffc4;
-  border-radius: 10px;
+  border: 0px solid black;
+  background-color: #f0ffe8;
+  border-radius: 20px;
   margin: 5px;
   padding: 20px;
+  font-family: 'Arial';
+  box-shadow: rgba(0, 0, 0, 0.20) 0px -.5px 5px, rgba(0, 0, 0, 0.28) 0px 10px 10px;
 }
 .time-display{
   position: absolute;
@@ -29,15 +37,17 @@
   display: inline-block;
   font-size: 32px;
   margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 3px 3px;
 }
 .timer-button{
   text-align: center;
   background-color: #74e277;
-  border-radius: 15px;
+  border-radius: 8px;
   border: 0px;
   color: white;
   margin: 3px;
   padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 3px 3px;
 }
 .timer-button:disabled{
   background-color: #a10000;
@@ -45,20 +55,23 @@
 #timer_input{
   text-align: center;
   background-color: #00ac06;
-  border-radius: 15px;
+  border-radius: 8px;
   border: 0px;
   color: white;
   margin: 3px;
   padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 3px 3px;
 }
 
 .timer{
   position: relative;
   grid-area: timer;
-  border: 1px solid;
+  border: 0px solid;
   background-color: white;
   border-radius: 15px;
   padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 1px 3px 3px;
+  
 }
 
 .text {
@@ -78,11 +91,14 @@
   height: 40px;
   width: 500px;
   text-align: center;
+  font-weight:700;
+  color: #1f6e00;
 }
 .desc input{
   background: transparent;
   border: 0px;
-  text-align: center;
+  text-align: left;
+  font-style: italic;
 }
 
 .desc {
@@ -100,11 +116,11 @@
 .image-holder {
   position: relative;
   width: 300px;
-
   height: 100%;
-  border: 1px solid black;
   border-radius: 15px;
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 1px 3px 3px;
+  
 }
 #display_image {
   width: 100%;
@@ -131,6 +147,7 @@
   font-size: 16px;
   margin: 10px;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 3px 3px;
 }
 .choose-file-button:hover{
   background-color: #3e8e41;
@@ -167,12 +184,13 @@
   font-size: 16px;
   margin: 1px;
   cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.20) 0px -.5px 5px;
 }
 
 .delete{
   height: 1fr;
-  background-color: rgb(255, 73, 73);
-  border-radius: 8px;
+  background-color: rgb(255, 82, 82);
+  border-radius: 12px;
   border: 0px;
   color:#ffffff;
   text-align:center;
@@ -185,6 +203,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  box-shadow: rgba(0, 0, 0, 0.20) 1px 3px 3px;
 }
 
 .delete:hover{
@@ -277,9 +297,7 @@
   </div>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="delete" on:click={deletePlant}> 
-    <button class="delete">Delete Plant </button>
-  </div>
+  <div class="delete" on:click={deletePlant}>Delete Plant</div>
   <div class="image">
     <div class="image-holder">
       {#if !showImage}
