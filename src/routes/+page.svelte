@@ -50,7 +50,7 @@ h1, body{
 
   <script>
     import { onMount } from 'svelte';
-    import PlantView from "../lib/TaskView.svelte"
+    import PlantView from "../lib/PlantView.svelte"
 
     let plant_list = []
 
