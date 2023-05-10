@@ -196,7 +196,7 @@
 
       if (timeRemaining <= 0) {
         clearInterval(timerId);
-        alert("Timer done!");
+        alert(task.text + " Needs to Be Watered!");
       }
     }, 1000);
   };
