@@ -1,18 +1,37 @@
 <style>
-  task-grid {
-    display: grid;
-    gap: 5px;
-    grid-template-columns: 3fr 3fr 1fr;
-	  grid-template-areas: 
-      "delete text test"
-      "desc desc delete"
-      "image image image"
-      5fr 
-    ;
+.task-grid {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 3fr 3fr 1fr;
+  grid-template-areas: 
+    "text text text"
+    "desc desc delete"
+    "image image image"
+  ;
+  column-gap: 10px;
 
-    column-gap: 10px;
-  }
+  border: 1px solid black;
+  background-color: #81ff81;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 20px;
+}
 
+.text {
+  grid-area: text;
+}
+
+.desc {
+  grid-area: desc;
+}
+
+.delete {
+  grid-area: delete;
+}
+
+.image {
+  grid-area: image;
+}
 .image-holder {
   position: relative;
   width: 300px;
@@ -20,7 +39,6 @@
   border: 1px solid black;
   overflow: hidden;
 }
-
 #display_image {
   width: 100%;
   height: 100%;
@@ -99,12 +117,16 @@
 </style>
 
 <script>
-  let showImage = false;
-
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   let send_event = createEventDispatcher();
 
   export let task;
+  export let showReplace;
+
+  let showImage = false;
+  onMount(() => {
+    showImage = task.image !== "";
+  });
 
   let deleteTask = function() {
     send_event("delete", { task_to_delete: task });
@@ -134,20 +156,27 @@
   };
 </script>
 
-<task-view class:completed={task.done}>
-  <input type="desc" bind:value={task.desc} on:input={notifyOfChange} />
-  <input type="text" bind:value={task.text} on:input={notifyOfChange} />
-  <button class="delete" on:click={deleteTask}>X</button>
-
-  <div class="image-holder">
-    {#if !showImage}
-      <button class="choose-file-button" on:click={() => fileInput.click()}>Choose file</button>
-    {/if}
-    <input type="file" accept="image/*" id="image_input" on:change={replaceImage} bind:this={fileInput} hidden />
-    {#if showImage}
-      <button class="replace-button" on:click={() => fileInput.click()}>Replace</button>
-      <button class="delete-button" on:click={deleteImage}>Delete image</button>
-    {/if}
-    <div id="display_image" style="background-image: url('{task.image}')"></div>
+<task-view class="task-grid completed={task.done}">
+  <div class="text"> 
+    <input type="text" bind:value={task.text} on:input={notifyOfChange} />
+  </div>
+  <div class="desc"> 
+    <input type="desc" bind:value={task.desc} on:input={notifyOfChange} />
+  </div>
+  <div class="delete"> 
+    <button class="delete" on:click={deleteTask}>X</button>
+  </div>
+  <div class="image">
+    <div class="image-holder">
+      {#if !showImage}
+        <button class="choose-file-button" on:click={() => fileInput.click()}>Choose file</button>
+      {/if}
+      <input type="file" accept="image/*" id="image_input" on:change={replaceImage} bind:this={fileInput} hidden />
+      {#if showImage}
+        <button class="replace-button" on:click={() => fileInput.click()}>Replace</button>
+        <button class="delete-button" on:click={deleteImage}>Delete image</button>
+      {/if}
+      <div id="display_image" style="background-image: url('{task.image}')"></div>
+    </div>
   </div>
 </task-view>
