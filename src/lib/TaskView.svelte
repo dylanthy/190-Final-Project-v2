@@ -39,6 +39,9 @@
   margin: 3px;
   padding: 5px;
 }
+.timer-button:disabled{
+  background-color: #a10000;
+}
 #timer_input{
   text-align: center;
   background-color: #00ac06;
@@ -228,38 +231,39 @@
     send_event("change", { task });
   }
   // Add timer functionality
-  let timeInput = "00:00:00:00";
+
+  
+  let timeInput = "00:00:00";
   let timeRemaining = 0;
   let timerId = null;
-
+  let reclick = true;
   let startTimer = () => {
-  let [days, hours, minutes, seconds] = timeInput.split(":").map(n => parseInt(n));
-  timeRemaining = days * 86400 + hours * 3600 + minutes * 60 + seconds;
+    if(reclick ==true){
+    reclick = false;
+    let [hours, minutes, seconds] = timeInput.split(":").map(n => parseInt(n));
+    timeRemaining = hours * 3600 + minutes * 60 + seconds;
 
     timerId = setInterval(() => {
       timeRemaining--;
 
       if (timeRemaining <= 0) {
         clearInterval(timerId);
-        alert(task.text + " Needs to Be Watered!");
+        alert("Timer done!");
+        reclick = true;
       }
-
-      let days = Math.floor(timeRemaining / 86400);
-      let hours = Math.floor((timeRemaining % 86400) / 3600);
-      let minutes = Math.floor((timeRemaining % 3600) / 60);
-      let seconds = timeRemaining % 60;
-
-      timeDisplay = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }, 1000);
+    }, 1000);}
+    else{
+      null;
+    }
   };
 
   let stopTimer = () => {
     clearInterval(timerId);
   };
 
-$: timeInputValid = /^(\d{1,2}):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(timeInput);
+  $: timeInputValid = /^(\d{1,3}):([0-5]\d):([0-5]\d)$/.test(timeInput);
 
-$: timeDisplay = timeInputValid ? timeInput : "00:00:00:00";
+  $: timeDisplay = new Date(timeRemaining * 1000).toISOString().substr(11, 8);
 
 </script>
 <body>

@@ -2,6 +2,22 @@
 h1, body{ 
   text-align: center;
 }
+.delete-all{
+  position: sticky;
+      bottom: 1%;
+      left: 150%;
+      transform: translate(-50%, -50%);
+      background-color:crimson;
+      border-radius: 15px;
+      border: 0px;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 30px;
+      cursor: pointer;
+    }
     task-list {
       display: grid;
       grid-template-columns: 1fr, 1fr;
@@ -10,8 +26,8 @@ h1, body{
 
     .add-task {
       position: sticky;
-      bottom: 1%;
-      left: 120%;
+      top: 87%;
+      right: 85%;
       transform: translate(-50%, -50%);
       background-color: #74e277;
       border-radius: 15px;
@@ -24,6 +40,7 @@ h1, body{
       font-size: 30px;
       cursor: pointer;
     }
+    
 
     .add-task:hover {
       background-color: #3e8e41;
@@ -92,6 +109,6 @@ h1, body{
     {/each}
 
     <button class="add-task" on:click={add_task}>+ Add Plant</button>
-    <button class="Delete-All" on:click={delete_all}>Delete All</button>
+    <button class="delete-all" on:click={delete_all}>Delete All</button>
   </task-list>
   </body>
