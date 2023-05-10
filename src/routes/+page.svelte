@@ -1,84 +1,84 @@
-<style>
-  h1 {
-    text-align: center;
-  }
+  <style>
+    h1 {
+      text-align: center;
+    }
 
-  task-list {
-    display: grid;
-    row-gap: 20px;
-    justify-items: center;
-  }
+    task-list {
+      display: grid;
+      row-gap: 20px;
+      justify-items: center;
+    }
 
-  .add-task {
-    background-color: #74e277;
-    border-radius: 15px;
-    border: 0px;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-  }
+    .add-task {
+      background-color: #74e277;
+      border-radius: 15px;
+      border: 0px;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
 
-  .add-task:hover {
-    background-color: #3e8e41;
-  }
-</style>
+    .add-task:hover {
+      background-color: #3e8e41;
+    }
+  </style>
 
 
-<script>
-	import { onMount } from 'svelte';
-  import TaskView from "../lib/TaskView.svelte"
+  <script>
+    import { onMount } from 'svelte';
+    import TaskView from "../lib/TaskView.svelte"
 
-  let task_list = []
+    let task_list = []
 
-  let save = function(){
-    localStorage.setItem('tasks', JSON.stringify(task_list))
-  }
+    let save = function(){
+      localStorage.setItem('tasks', JSON.stringify(task_list))
+    }
 
-  let add_task = function(){
-    task_list = [...task_list, {done: false, text: "", image: "", imageId: Math.random().toString(36).substring(7)}]
-    save()
-  }
+    let add_task = function(){
+      task_list = [...task_list, {done: false, text: "", image: "", imageId: Math.random().toString(36).substring(7)}]
+      save()
+    }
 
-  let deleteTask = function(event){
-    let task_to_delete = event.detail.task_to_delete
-    task_list = task_list.filter((t) => t !== task_to_delete)
-    save()
-  }
+    let deleteTask = function(event){
+      let task_to_delete = event.detail.task_to_delete
+      task_list = task_list.filter((t) => t !== task_to_delete)
+      save()
+    }
 
-  let add_image = function(event){
-    const task_upload_img = event.detail.task_upload_img;
-    const image_input = document.querySelector(`#${task_upload_img.imageId}_input`);
-    const display_image = document.querySelector(`#${task_upload_img.imageId}_display`);
-    var uploaded_image = "";
-    image_input.addEventListener("change", function(){
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        uploaded_image = reader.result;
-        display_image.style.backgroundImage = `url(${uploaded_image})`;
-        task_upload_img.image = uploaded_image;
-        save();
-      });
-      reader.readAsDataURL(this.files[0]);
+    let add_image = function(event){
+      const task_upload_img = event.detail.task_upload_img;
+      const image_input = document.querySelector(`#${task_upload_img.imageId}_input`);
+      const display_image = document.querySelector(`#${task_upload_img.imageId}_display`);
+      var uploaded_image = "";
+      image_input.addEventListener("change", function(){
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          uploaded_image = reader.result;
+          display_image.style.backgroundImage = `url(${uploaded_image})`;
+          task_upload_img.image = uploaded_image;
+          save();
+        });
+        reader.readAsDataURL(this.files[0]);
+      })
+    }
+
+    onMount(() => {
+      task_list = JSON.parse(localStorage.getItem('tasks')) || []
+
     })
-  }
+  </script>
 
-  onMount(() => {
-    task_list = JSON.parse(localStorage.getItem('tasks')) || []
+  <h1>Water Wizard</h1>
 
-  })
-</script>
+  <task-list>
+    {#each task_list as task }
+      <TaskView task={task} on:delete={deleteTask} on:uploading={add_image} on:change={save}></TaskView>
+    {/each}
 
-<h1>Water Wizard</h1>
-
-<task-list>
-  {#each task_list as task }
-    <TaskView task={task} on:delete={deleteTask} on:uploading={add_image} on:change={save}></TaskView>
-  {/each}
-
-  <button class="add-task" on:click={add_task}>+ Add Plant</button>
-</task-list>
+    <button class="add-task" on:click={add_task}>+ Add Plant</button>
+  </task-list>

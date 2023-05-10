@@ -2,7 +2,7 @@
 .task-grid {
   display: grid;
   gap: 5px;
-  grid-template-columns: 3fr 3fr 1fr;
+  grid-template-columns: 5fr 6fr 1fr;
   grid-template-areas: 
     "text text text"
     "desc desc delete"
@@ -11,18 +11,30 @@
   column-gap: 10px;
 
   border: 1px solid black;
-  background-color: #81ff81;
+  background-color: #daffc4;
   border-radius: 10px;
   margin: 5px;
   padding: 20px;
 }
 
-.text {
+.text{
+  align-self: center;
   grid-area: text;
+  font-size: 1px;
+  height: 32px;
 }
 
-.desc {
-  grid-area: desc;
+.text input{
+  font-size: 16px;
+  height: 30px;
+  width: 1fr;
+  grid-column: 1 / span 3;
+  column-span: all;
+}
+
+.desc input {
+  font-size: 16px;
+  height: 30px;
 }
 
 .delete {
@@ -37,6 +49,7 @@
   width: 300px;
   height: 300px;
   border: 1px solid black;
+  border-radius: 15px;
   overflow: hidden;
 }
 #display_image {
@@ -45,6 +58,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  background-color: white;
 }
 
 .choose-file-button {
@@ -100,14 +114,15 @@
 }
 
 .delete{
+  width: 1fr;
+  height: 1fr;
   background-color: rgb(255, 73, 73);
   border-radius: 8px;
   border: 0px;
   color:#ffffff;
-  padding: 10px;
   text-align:center;
   text-decoration: wavy;
-  font-size: 16;
+  font-size: 32px;
   cursor: cursor;
 }
 
@@ -158,10 +173,10 @@
 
 <task-view class="task-grid completed={task.done}">
   <div class="text"> 
-    <input type="text" bind:value={task.text} on:input={notifyOfChange} />
+    <input type="text" bind:value={task.text} on:input={notifyOfChange} placeholder="Name your Plant" />
   </div>
   <div class="desc"> 
-    <input type="desc" bind:value={task.desc} on:input={notifyOfChange} />
+    <input type="desc" bind:value={task.desc} on:input={notifyOfChange} placeholder="Name your Plant's Species"/>
   </div>
   <div class="delete"> 
     <button class="delete" on:click={deleteTask}>X</button>
