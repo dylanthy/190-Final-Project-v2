@@ -120,7 +120,6 @@
 }
 
 .delete{
-  width: 1fr;
   height: 1fr;
   background-color: rgb(255, 73, 73);
   border-radius: 8px;
@@ -183,13 +182,13 @@
     send_event("change", { task });
   }
   // Add timer functionality
-  let timeInput = "000:00:00";
+  let timeInput = "00:00:00:00";
   let timeRemaining = 0;
   let timerId = null;
 
   let startTimer = () => {
-    let [hours, minutes, seconds] = timeInput.split(":").map(n => parseInt(n));
-    timeRemaining = hours * 3600 + minutes * 60 + seconds;
+  let [days, hours, minutes, seconds] = timeInput.split(":").map(n => parseInt(n));
+  timeRemaining = days * 86400 + hours * 3600 + minutes * 60 + seconds;
 
     timerId = setInterval(() => {
       timeRemaining--;
@@ -198,6 +197,13 @@
         clearInterval(timerId);
         alert(task.text + " Needs to Be Watered!");
       }
+
+      let days = Math.floor(timeRemaining / 86400);
+      let hours = Math.floor((timeRemaining % 86400) / 3600);
+      let minutes = Math.floor((timeRemaining % 3600) / 60);
+      let seconds = timeRemaining % 60;
+
+      timeDisplay = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }, 1000);
   };
 
@@ -205,9 +211,9 @@
     clearInterval(timerId);
   };
 
-  $: timeInputValid = /^(\d{1,3}):([0-5]\d):([0-5]\d)$/.test(timeInput);
+$: timeInputValid = /^(\d{1,2}):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(timeInput);
 
-  $: timeDisplay = new Date(timeRemaining * 1000).toISOString().substr(11, 8);
+$: timeDisplay = timeInputValid ? timeInput : "00:00:00:00";
 
 </script>
 
@@ -218,8 +224,10 @@
   <div class="desc"> 
     <input type="desc" bind:value={task.desc} on:input={notifyOfChange} placeholder="Name your Plant's Species"/>
   </div>
-  <div class="delete"> 
-    <button class="delete" on:click={deleteTask}>X</button>
+
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div class="delete" on:click={deleteTask}> 
+    <button class="delete">Delete Plant </button>
   </div>
   <div class="image">
     <div class="image-holder">
@@ -235,7 +243,7 @@
     </div>
   </div>
   <div class="timer">
-    <input type="text" bind:value={timeInput} id="timer_input" placeholder="HH:MM:SS"/>
+    <input type="text" bind:value={timeInput} id="timer_input" placeholder="DD:HH:MM:SS"/>
     <button on:click={startTimer} disabled={!timeInputValid}>Start</button>
     <button on:click={stopTimer}>Stop</button>
     <div class="time-display">{timeDisplay}</div>
