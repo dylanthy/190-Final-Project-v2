@@ -251,8 +251,6 @@
     send_event("change", { plant });
   }
   // Add timer functionality
-
-  
   let timeInput = "00:00:00";
   let timeRemaining = 0;
   let timerId = null;
@@ -312,7 +310,7 @@
     </div>
   </div>
   <div class="timer">
-    <input type="text" bind:value={timeInput} id="timer_input" placeholder="DD:HH:MM:SS"/>
+    <input type="text" bind:value={timeInput} id="timer_input" placeholder="HH:MM:SS"/>
     <button class="timer-button" on:click={startTimer} disabled={!timeInputValid}>Start</button>
     <button class = "timer-button" on:click={stopTimer}>Stop</button>
     <div class="time-display">{timeDisplay}</div>

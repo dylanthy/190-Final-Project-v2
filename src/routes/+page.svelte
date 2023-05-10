@@ -72,6 +72,7 @@ h1, body{
     let delete_all = function(){
       if( confirm("Delete All Plant Data?")==true){
         plant_list = [];
+        save();
       }
       else{
         null;
