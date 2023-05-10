@@ -1,5 +1,5 @@
 <style>
-.task-grid {
+.plant-grid {
   display: grid;
   gap: 5px;
   grid-template-areas: 
@@ -196,20 +196,20 @@
   import { createEventDispatcher, onMount } from 'svelte';
 
   let send_event = createEventDispatcher();
-  export let task;
+  export let plant;
   export let showReplace;
 
   let showImage = false;
   onMount(() => {
-    showImage = task.image !== "";
+    showImage = plant.image !== "";
   });
 
-  let deleteTask = function() {
-    send_event("delete", { task_to_delete: task });
+  let deletePlant = function() {
+    send_event("delete", { plant_to_delete: plant });
   };
 
   let notifyOfChange = function() {
-    send_event("change", { task_to_delete: task });
+    send_event("change", { plant_to_delete: plabt });
   };
 
   let fileInput;
@@ -218,17 +218,17 @@
     const files = event.target.files;
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      task.image = reader.result;
+      plant.image = reader.result;
       showImage = true;
-      send_event("uploading", { task_upload_img: task });
+      send_event("uploading", { plant_upload_img: plant });
     });
     reader.readAsDataURL(files[0]);
   };
 
   let deleteImage = () => {
-    task.image = "";
+    plant.image = "";
     showImage = false;
-    send_event("change", { task });
+    send_event("change", { plant });
   }
   // Add timer functionality
 
@@ -259,6 +259,7 @@
 
   let stopTimer = () => {
     clearInterval(timerId);
+    reclick = true;
   };
 
   $: timeInputValid = /^(\d{1,3}):([0-5]\d):([0-5]\d)$/.test(timeInput);
@@ -267,16 +268,16 @@
 
 </script>
 <body>
-<task-view class="task-grid completed={task.done}">
+<plant-view class="plant-grid completed={plant.done}">
   <div class="text"> 
-    <input type="text" bind:value={task.text} on:input={notifyOfChange} placeholder="Name your Plant" />
+    <input type="text" bind:value={plant.text} on:input={notifyOfChange} placeholder="Name your Plant" />
   </div>
   <div class="desc"> 
-    <input type="desc" bind:value={task.desc} on:input={notifyOfChange} placeholder="Name your Plant's Species"/>
+    <input type="desc" bind:value={plant.desc} on:input={notifyOfChange} placeholder="Name your Plant's Species"/>
   </div>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="delete" on:click={deleteTask}> 
+  <div class="delete" on:click={deletePlant}> 
     <button class="delete">Delete Plant </button>
   </div>
   <div class="image">
@@ -289,7 +290,7 @@
         <button class="replace-button" on:click={() => fileInput.click()}>Replace</button>
         <button class="delete-button" on:click={deleteImage}>Delete image</button>
       {/if}
-      <div id="display_image" style="background-image: url('{task.image}')"></div>
+      <div id="display_image" style="background-image: url('{plant.image}')"></div>
     </div>
   </div>
   <div class="timer">
@@ -298,5 +299,5 @@
     <button class = "timer-button" on:click={stopTimer}>Stop</button>
     <div class="time-display">{timeDisplay}</div>
   </div>
-</task-view>
+</plant-view>
 </body> 
