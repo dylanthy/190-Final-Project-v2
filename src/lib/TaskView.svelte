@@ -1,10 +1,13 @@
 <style>
-  task-view {
+  task-grid {
     display: grid;
-    grid-template: 
-      "text text delete"
+    gap: 5px;
+    grid-template-columns: 3fr 3fr 1fr;
+	  grid-template-areas: 
+      "delete text test"
+      "desc desc delete"
       "image image image"
-      /auto 1fr   auto
+      5fr 
     ;
 
     column-gap: 10px;
@@ -58,22 +61,23 @@
   display: inline-block;
   font-size: 20px;
   cursor: pointer;
+  display: none;
 }
 
 .replace-button {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 5px;
+  right: 5px;
   background-color: #74e277;
-  border-radius: 15px;
+  border-radius: 10px;
   border: 0px;
   color: white;
-  padding: 10px;
+  padding: 4px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 10px;
+  margin: 1px;
   cursor: pointer;
 }
 
@@ -112,10 +116,6 @@
 
   let fileInput;
 
-  let openFilePicker = () => {
-    fileInput.click();
-  };
-
   let replaceImage = (event) => {
     const files = event.target.files;
     const reader = new FileReader();
@@ -134,22 +134,20 @@
   };
 </script>
 
-
 <task-view class:completed={task.done}>
+  <input type="desc" bind:value={task.desc} on:input={notifyOfChange} />
   <input type="text" bind:value={task.text} on:input={notifyOfChange} />
   <button class="delete" on:click={deleteTask}>X</button>
 
-  <div class="image-holder" on:click={openFilePicker}>
+  <div class="image-holder">
     {#if !showImage}
-      <button class="choose-file-button" on:click={openFilePicker}>Choose file</button>
+      <button class="choose-file-button" on:click={() => fileInput.click()}>Choose file</button>
     {/if}
     <input type="file" accept="image/*" id="image_input" on:change={replaceImage} bind:this={fileInput} hidden />
     {#if showImage}
-      <button class="replace-image-button" on:click={openFilePicker}>Replace image</button>
-      <button class="delete-image-button" on:click={deleteImage}>Delete image</button>
+      <button class="replace-button" on:click={() => fileInput.click()}>Replace</button>
+      <button class="delete-button" on:click={deleteImage}>Delete image</button>
     {/if}
-    <div id="display_image" style="background-image: url('{task.image}')">
-      <input type="file" accept="image/*" id="image_input" on:change={replaceImage} bind:this={fileInput} hidden />
-    </div>
+    <div id="display_image" style="background-image: url('{task.image}')"></div>
   </div>
 </task-view>
