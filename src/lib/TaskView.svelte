@@ -17,28 +17,29 @@
   padding: 20px;
 }
 
-.text{
-  align-self: center;
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   grid-area: text;
   font-size: 1px;
   height: 32px;
+  margin: 5px;
 }
 
 .text input{
-  font-size: 16px;
-  height: 30px;
-  width: 1fr;
-  grid-column: 1 / span 3;
-  column-span: all;
+  font-size: 25px;
+  height: 40px;
+  width: 500px;
+  text-align: center;
 }
 
+.desc {
+  margin: 5px;
+}
 .desc input {
   font-size: 16px;
   height: 30px;
-}
-
-.delete {
-  grid-area: delete;
 }
 
 .image {
@@ -124,6 +125,13 @@
   text-decoration: wavy;
   font-size: 32px;
   cursor: cursor;
+  grid-area: delete;
+  text-align: center;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:40px;
 }
 
 .delete:hover{
