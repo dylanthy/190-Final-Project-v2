@@ -6,7 +6,7 @@
   grid-template-areas: 
     "text text text"
     "desc desc delete"
-    "image image image"
+    "image image timer"
   ;
   column-gap: 10px;
 
@@ -15,6 +15,11 @@
   border-radius: 10px;
   margin: 5px;
   padding: 20px;
+}
+
+.timer{
+  grid-area: timer;
+  border: 1px solid
 }
 
 .text {
@@ -141,8 +146,8 @@
 
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
-  let send_event = createEventDispatcher();
 
+  let send_event = createEventDispatcher();
   export let task;
   export let showReplace;
 
@@ -176,7 +181,34 @@
     task.image = "";
     showImage = false;
     send_event("change", { task });
+  }
+  // Add timer functionality
+  let timeInput = "000:00:00";
+  let timeRemaining = 0;
+  let timerId = null;
+
+  let startTimer = () => {
+    let [hours, minutes, seconds] = timeInput.split(":").map(n => parseInt(n));
+    timeRemaining = hours * 3600 + minutes * 60 + seconds;
+
+    timerId = setInterval(() => {
+      timeRemaining--;
+
+      if (timeRemaining <= 0) {
+        clearInterval(timerId);
+        alert("Timer done!");
+      }
+    }, 1000);
   };
+
+  let stopTimer = () => {
+    clearInterval(timerId);
+  };
+
+  $: timeInputValid = /^(\d{1,3}):([0-5]\d):([0-5]\d)$/.test(timeInput);
+
+  $: timeDisplay = new Date(timeRemaining * 1000).toISOString().substr(11, 8);
+
 </script>
 
 <task-view class="task-grid completed={task.done}">
@@ -201,5 +233,11 @@
       {/if}
       <div id="display_image" style="background-image: url('{task.image}')"></div>
     </div>
+  </div>
+  <div class="timer">
+    <input type="text" bind:value={timeInput} id="timer_input" placeholder="HH:MM:SS"/>
+    <button on:click={startTimer} disabled={!timeInputValid}>Start</button>
+    <button on:click={stopTimer}>Stop</button>
+    <div class="time-display">{timeDisplay}</div>
   </div>
 </task-view>
