@@ -2,7 +2,6 @@
 .task-grid {
   display: grid;
   gap: 5px;
-  grid-template-columns: 5fr 6fr 1fr;
   grid-template-areas: 
     "text text text"
     "desc desc delete"
@@ -16,10 +15,47 @@
   margin: 5px;
   padding: 20px;
 }
+.time-display{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #74e277;
+  border-radius: 15px;
+  border: 0px;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 32px;
+  margin: 10px;
+}
+.timer-button{
+  text-align: center;
+  background-color: #74e277;
+  border-radius: 15px;
+  border: 0px;
+  color: white;
+  margin: 3px;
+  padding: 5px;
+}
+#timer_input{
+  text-align: center;
+  background-color: #00ac06;
+  border-radius: 15px;
+  border: 0px;
+  color: white;
+  margin: 3px;
+  padding: 5px;
+}
 
 .timer{
+  position: relative;
   grid-area: timer;
-  border: 1px solid
+  border: 1px solid;
+  background-color: white;
+  border-radius: 15px;
+  padding: 5px;
 }
 
 .text {
@@ -33,9 +69,16 @@
 }
 
 .text input{
+  background: transparent;
+  border: 0px;
   font-size: 25px;
   height: 40px;
   width: 500px;
+  text-align: center;
+}
+.desc input{
+  background: transparent;
+  border: 0px;
   text-align: center;
 }
 
@@ -49,11 +92,13 @@
 
 .image {
   grid-area: image;
+  height: 300px;
 }
 .image-holder {
   position: relative;
   width: 300px;
-  height: 300px;
+
+  height: 100%;
   border: 1px solid black;
   border-radius: 15px;
   overflow: hidden;
@@ -84,6 +129,9 @@
   margin: 10px;
   cursor: pointer;
 }
+.choose-file-button:hover{
+  background-color: #3e8e41;
+}
 
 .delete-button {
   position: absolute;
@@ -93,7 +141,6 @@
   border-radius: 50%;
   border: 0px;
   color: black;
-  padding: 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -127,7 +174,7 @@
   color:#ffffff;
   text-align:center;
   text-decoration: wavy;
-  font-size: 32px;
+  font-size: 22px;
   cursor: cursor;
   grid-area: delete;
   text-align: center;
@@ -135,7 +182,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size:40px;
 }
 
 .delete:hover{
@@ -216,7 +262,7 @@ $: timeInputValid = /^(\d{1,2}):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(timeInput);
 $: timeDisplay = timeInputValid ? timeInput : "00:00:00:00";
 
 </script>
-
+<body>
 <task-view class="task-grid completed={task.done}">
   <div class="text"> 
     <input type="text" bind:value={task.text} on:input={notifyOfChange} placeholder="Name your Plant" />
@@ -244,8 +290,9 @@ $: timeDisplay = timeInputValid ? timeInput : "00:00:00:00";
   </div>
   <div class="timer">
     <input type="text" bind:value={timeInput} id="timer_input" placeholder="DD:HH:MM:SS"/>
-    <button on:click={startTimer} disabled={!timeInputValid}>Start</button>
-    <button on:click={stopTimer}>Stop</button>
+    <button class="timer-button" on:click={startTimer} disabled={!timeInputValid}>Start</button>
+    <button class = "timer-button" on:click={stopTimer}>Stop</button>
     <div class="time-display">{timeDisplay}</div>
   </div>
 </task-view>
+</body> 

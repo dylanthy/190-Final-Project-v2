@@ -1,15 +1,16 @@
   <style>
-    h1 {
-      text-align: center;
-    }
-
+h1, body{ 
+  text-align: center;
+}
     task-list {
       display: grid;
-      row-gap: 20px;
+      grid-template-columns: 1fr, 1fr;
       justify-items: center;
     }
 
     .add-task {
+      position: absolute;
+      bottom: 1%;
       background-color: #74e277;
       border-radius: 15px;
       border: 0px;
@@ -72,7 +73,7 @@
 
     })
   </script>
-
+  <body>
   <h1>Water Wizard</h1>
 
   <task-list>
@@ -82,3 +83,4 @@
 
     <button class="add-task" on:click={add_task}>+ Add Plant</button>
   </task-list>
+  </body>
