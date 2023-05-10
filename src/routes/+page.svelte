@@ -9,18 +9,19 @@ h1, body{
     }
 
     .add-task {
-      position: absolute;
+      position: sticky;
       bottom: 1%;
+      left: 120%;
+      transform: translate(-50%, -50%);
       background-color: #74e277;
       border-radius: 15px;
       border: 0px;
       color: white;
-      padding: 10px;
+      padding: 20px;
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-size: 16px;
-      margin: 10px;
+      font-size: 30px;
       cursor: pointer;
     }
 
@@ -43,6 +44,15 @@ h1, body{
     let add_task = function(){
       task_list = [...task_list, {done: false, text: "", image: "", imageId: Math.random().toString(36).substring(7)}]
       save()
+    }
+
+    let delete_all = function(){
+      if( confirm("Delete All Plant Data?")==true){
+        task_list = [];
+      }
+      else{
+        null;
+      }
     }
 
     let deleteTask = function(event){
@@ -82,5 +92,6 @@ h1, body{
     {/each}
 
     <button class="add-task" on:click={add_task}>+ Add Plant</button>
+    <button class="Delete-All" on:click={delete_all}>Delete All</button>
   </task-list>
   </body>
